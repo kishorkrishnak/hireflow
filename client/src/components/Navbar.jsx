@@ -96,7 +96,7 @@ function MenuList({ user, onClick }) {
   );
 }
 const Navbar = () => {
-  const user = users[1]
+  const user = users[1];
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseNavbar = () => {
@@ -108,12 +108,14 @@ const Navbar = () => {
       <div className="relative bg-[#f7fdfd] z-50">
         <nav className="container mx-auto flex items-center justify-between p-5">
           <div>
-            <Link to="/" className="text-blue-600 font-bold text-xl">
-       <div className="flex items-center justify-center gap-2 bg-red-400">
-       <img src={Logo} height={29} width={29} alt="logo" />
-        <div>Job<span className="text-[#1677cccb]">Flow</span></div>
-       </div>
-
+            <Link
+              to="/"
+              className="text-blue-600 font-bold text-xl flex items-center justify-center gap-2"
+            >
+              <img src={Logo} height={29} width={29} alt="logo" />
+              <div>
+                Job<span className="text-[#1677cccb]">Flow</span>
+              </div>
             </Link>
           </div>
 
