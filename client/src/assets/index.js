@@ -12,6 +12,7 @@ import Twitter from "./twitter.png";
 import NoProfile from "./userprofile.png";
 import WhatsApp from "./whatsapp.png";
 import Youtube from "./youtube.png";
+import Hero2 from './hero3.png'
 
 export {
   CodeWave,
@@ -28,4 +29,5 @@ export {
   Twitter,
   WhatsApp,
   Youtube,
+  Hero2
 };

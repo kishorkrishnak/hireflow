@@ -4,6 +4,8 @@ import { CiLocationOn } from "react-icons/ci";
 import CustomButton from "./CustomButton";
 import { popularSearch } from "../utils/data";
 import { HeroImage } from "../assets";
+import { Hero2 } from "../assets";
+
 
 const SearchInput = ({ placeholder, icon, value, setValue, styles }) => {
   const handleChange = (e) => {
