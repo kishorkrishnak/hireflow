@@ -27,7 +27,7 @@ const JobDetail = () => {
               <img
                 src={job?.company?.profileUrl}
                 alt={job?.company?.name}
-                className='w-20 h-20 md:w-24 md:h-20 rounded'
+                className='w-20 h-20 md:w-20 md:h-20 rounded'
               />
 
               <div className='flex flex-col'>
