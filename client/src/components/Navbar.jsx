@@ -114,7 +114,7 @@ const Navbar = () => {
             >
               <img src={Logo} height={29} width={29} alt="logo" />
               <div>
-                Job<span className="text-[#1677cccb]">Flow</span>
+                Job<span className="text-[#1677cccb]"> Station</span>
               </div>
             </Link>
           </div>
