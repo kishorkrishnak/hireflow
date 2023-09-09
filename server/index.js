@@ -17,10 +17,8 @@ const app = express();
 
 const PORT = process.env.PORT || 5000;
 
-// MONGODB CONNECTION
 dbConnection();
 
-// middlenames
 app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());

@@ -3,7 +3,7 @@ import Users from "../models/userModel.js";
 export const register = async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
 
-  //validate fileds
+  //validate fields
 
   if (!firstName) {
     next("First Name is required");
@@ -19,9 +19,9 @@ export const register = async (req, res, next) => {
   }
 
   try {
-    const userExist = await Users.findOne({ email });
+    const userExists = await Users.findOne({ email });
 
-    if (userExist) {
+    if (userExists) {
       next("Email Address already exists");
       return;
     }
