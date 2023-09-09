@@ -6,10 +6,15 @@ import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import CustomButton from "./CustomButton";
-import { users } from "../utils/data";
-import { Logo } from "../assets";
+import { useSelector, useDispatch } from "react-redux";
+import { Logout } from "../redux/userSlice";
+import { User } from "../assets";
+
 function MenuList({ user, onClick }) {
-  const handleLogout = () => {};
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(Logout());
+  };
 
   return (
     <div>
@@ -26,7 +31,7 @@ function MenuList({ user, onClick }) {
             </div>
 
             <img
-              src={user?.profileUrl}
+              src={user?.profileUrl || User}
               alt="user profile"
               className="w-10 h-10 rounded-full object-cover "
             />
@@ -96,7 +101,7 @@ function MenuList({ user, onClick }) {
   );
 }
 const Navbar = () => {
-  const user = users[1];
+  const { user } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleCloseNavbar = () => {
@@ -108,14 +113,8 @@ const Navbar = () => {
       <div className="relative bg-[#f7fdfd] z-50">
         <nav className="container mx-auto flex items-center justify-between p-5">
           <div>
-            <Link
-              to="/"
-              className="text-blue-600 font-bold text-xl flex items-center justify-center gap-2"
-            >
-              <img src={Logo} height={29} width={29} alt="logo" />
-              <div>
-                Job<span className="text-[#1677cccb]"> Station</span>
-              </div>
+            <Link to="/" className="text-blue-600 font-bold text-xl">
+              Job<span className="text-[#1677cccb]">Finder</span>
             </Link>
           </div>
 

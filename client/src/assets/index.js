@@ -12,8 +12,8 @@ import Twitter from "./twitter.png";
 import NoProfile from "./userprofile.png";
 import WhatsApp from "./whatsapp.png";
 import Youtube from "./youtube.png";
-import Hero2 from './hero3.png'
-
+import Hero2 from "./hero3.png";
+import User from "./user.svg";
 export {
   CodeWave,
   Facebook,
@@ -29,5 +29,7 @@ export {
   Twitter,
   WhatsApp,
   Youtube,
-  Hero2
+  Hero2,
+  User,
+
 };
