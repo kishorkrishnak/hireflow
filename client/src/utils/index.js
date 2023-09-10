@@ -18,7 +18,7 @@ export const apiRequest = async ({ url, token, data, method }) => {
       },
     });
 
-    return result?.data
+    return result?.data;
   } catch (error) {
     const err = error.response.data;
     console.log(err);
@@ -41,7 +41,7 @@ export const handleFileUpload = async (uploadFile) => {
   }
 };
 
-export const updateURL = (
+export const updateURL = ({
   pageNum,
   query,
   cmpLoc,
@@ -49,17 +49,17 @@ export const updateURL = (
   navigate,
   location,
   jType,
-  exp
-) => {
-    const params = new URLSearchParams()
-    if(pageNum && pageNum > 1) params.set('page',pageNum)
-    if(query) params.set('search',query)
-    if(cmpLoc) params.set('location',cmpLoc)
-    if(sort) params.set('sort',sort)
-    if(jType) params.set('jtype',jType)
-    if(exp) params.set('exp',exp)
+  exp,
+}) => {
+  const params = new URLSearchParams();
+  if (pageNum && pageNum > 1) params.set("page", pageNum);
+  if (query) params.set("search", query);
+  if (cmpLoc) params.set("location", cmpLoc);
+  if (sort) params.set("sort", sort);
+  if (jType) params.set("jtype", jType);
+  if (exp) params.set("exp", exp);
 
-    const newURL =  `${location.pathname}?${params.toString( )}`
-    navigate(newURL, {replace: true})
-    return newURL
+  const newURL = `${location.pathname}?${params.toString()}`;
+  navigate(newURL, { replace: true });
+  return newURL;
 };

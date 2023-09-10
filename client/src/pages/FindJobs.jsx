@@ -44,8 +44,7 @@ const FindJobs = () => {
         method: "GET",
       });
       setNumPage(res?.numOfPage);
-
-      setRecordCount(res?.totaljobs);
+      setRecordCount(res?.totalJobs);
       setData(res?.data);
       setIsFetching(false);
     } catch (error) {}
@@ -66,11 +65,19 @@ const FindJobs = () => {
     e.preventDefault();
     setPage((prev) => prev + 1);
   };
-  const filterExperience = async (e) => {
-    if (expVal?.includes(e)) {
-      setExpVal(expVal?.filter((el) => el !== e));
+
+  const filterExperience = async ({ value, checked }) => {
+    if (!checked) {
+      if (expVal.length === 1) {
+        setExpVal([]);
+        setFilterExp([]);
+        return;
+      }
+    }
+    if (expVal?.includes(value)) {
+      setExpVal(expVal?.filter((el) => el !== value));
     } else {
-      setExpVal([...expVal, e]);
+      setExpVal([...expVal, value]);
     }
   };
 
@@ -82,7 +89,8 @@ const FindJobs = () => {
         newExpVal.push(Number(newEl[0]), Number(newEl[1]));
       });
       newExpVal?.sort((a, b) => a - b);
-      setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal?.length]}`);
+      
+      setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal.length - 1]}`);
     }
   }, [expVal]);
 
@@ -119,7 +127,10 @@ const FindJobs = () => {
 
             <div className="flex flex-col gap-2">
               {jobTypes.map((jtype, index) => (
-                <div key={index} className="flex gap-2 text-sm md:text-base ">
+                <div
+                  key={index}
+                  className="flex gap-2 text-sm md:text-base items-center"
+                >
                   <input
                     type="checkbox"
                     value={jtype}
@@ -146,12 +157,12 @@ const FindJobs = () => {
 
             <div className="flex flex-col gap-2">
               {experience.map((exp) => (
-                <div key={exp.title} className="flex gap-3">
+                <div key={exp.title} className="flex gap-3 items-center">
                   <input
                     type="checkbox"
                     value={exp?.value}
                     className="w-4 h-4"
-                    onChange={(e) => filterExperience(e.target.value)}
+                    onChange={(e) => filterExperience(e.target)}
                   />
                   <span>{exp.title}</span>
                 </div>
@@ -163,7 +174,7 @@ const FindJobs = () => {
         <div className="w-full md:w-5/6 px-5 md:px-0">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm md:text-base">
-              Shwoing: <span className="font-semibold">{recordCount}</span> Jobs
+              Showing: <span className="font-semibold">{recordCount}</span> Jobs
               Available
             </p>
 
@@ -193,7 +204,7 @@ const FindJobs = () => {
           {numPage > page && !isFetching && (
             <div className="w-full flex items-center justify-center pt-16">
               <CustomButton
-              onClick={handleShowMore}
+                onClick={handleShowMore}
                 title="Load More"
                 containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
               />

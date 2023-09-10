@@ -7,7 +7,6 @@ import {
   Loading,
   TextInput,
 } from "../components";
-import { jobs } from "../utils/data";
 import { useSelector } from "react-redux";
 import { apiRequest } from "../utils";
 
@@ -27,7 +26,7 @@ const UploadJob = () => {
   const [errMsg, setErrMsg] = useState("");
   const [jobTitle, setJobTitle] = useState("Full-Time");
   const [jobType, setJobType] = useState("Full-Time");
-  const [isLoading, setIsLoading] = useState("Full-Time");
+  const [isLoading, setIsLoading] = useState(false);
   const [recentPost, setRecentPost] = useState([]);
 
   const onSubmit = async (data) => {
@@ -48,9 +47,9 @@ const UploadJob = () => {
       } else {
         setErrMsg({ status: "success", message: res.message });
 
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
       }
       setIsLoading(false);
     } catch (error) {
@@ -187,7 +186,7 @@ const UploadJob = () => {
 
             {errMsg && (
               <span role="alert" className="text-sm text-red-500 mt-0.5">
-                {errMsg}
+                {errMsg.message}
               </span>
             )}
             <div className="mt-2">
@@ -208,7 +207,7 @@ const UploadJob = () => {
         <p className="text-gray-500 font-semibold">Recent Job Post</p>
 
         <div className="w-full flex flex-wrap gap-6">
-          {recentPost.slice(0, 4).map((job, index) => {
+          {recentPost?.slice(0, 4).map((job, index) => {
             const data = {
               name:user?.name,
               email:user?.email,
