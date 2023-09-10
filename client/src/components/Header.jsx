@@ -85,10 +85,11 @@ const Header = ({
               {popularSearch.map((search, index) => (
                 <span
                   key={index}
-                  onClick={() => {
+                  onClick={(e) => {
                     setSearchQuery(search);
+                    handleClick(e);
                   }}
-                  className="bg-[#1d4fd826] text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
+                  className="cursor-pointer bg-[#1d4fd826] text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
                 >
                   {search}
                 </span>

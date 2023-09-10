@@ -47,9 +47,9 @@ const UploadJob = () => {
       } else {
         setErrMsg({ status: "success", message: res.message });
 
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       }
       setIsLoading(false);
     } catch (error) {
@@ -60,11 +60,12 @@ const UploadJob = () => {
 
   const getRecentPost = async () => {
     try {
-      const id = user?.id;
+      const id = user?._id;
       const res = await apiRequest({
         url: "/companies/get-company/" + id,
         method: "GET",
       });
+      console.log(res);
       setRecentPost(res?.data?.jobPosts);
     } catch (error) {
       console.log(error);
@@ -208,6 +209,7 @@ const UploadJob = () => {
 
         <div className="w-full flex flex-wrap gap-6">
           {recentPost?.slice(0, 4).map((job, index) => {
+            console.log(user);
             const data = {
               name:user?.name,
               email:user?.email,

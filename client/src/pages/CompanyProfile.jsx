@@ -50,10 +50,10 @@ const CompanyForm = ({ open, setOpen }) => {
         setErrMsg({ ...res });
       } else {
         setErrMsg({ status: "success", message: res.message });
-        const newData = { token: res?.token, ...res?.user };
+        const newData = { token: res?.token, ...res?.company  };
 
         dispatch(Login(newData));
-        localStorage.setItem("userInfo", JSON.stringify(data));
+        localStorage.setItem("userInfo", JSON.stringify(newData));
 
         setTimeout(() => {
           window.location.reload();
@@ -200,6 +200,7 @@ const CompanyForm = ({ open, setOpen }) => {
 const CompanyProfile = () => {
   const params = useParams();
   const { user } = useSelector((state) => state.user);
+  console.log(user);
   const [info, setInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);

@@ -38,10 +38,12 @@ const UserForm = ({ open, setOpen }) => {
       });
       if (res) {
         const newData = { token: res?.token, ...res?.user };
-
         dispatch(Login(newData));
-        localStorage.setItem("userInfo", JSON.stringify(res));
-        window.location.reload();
+        localStorage.setItem("userInfo", JSON.stringify(newData));
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
       }
       setIsSubmitting(false);
     } catch (error) {
