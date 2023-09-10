@@ -7,7 +7,7 @@ const JobCard = ({ job }) => {
   return (
     <Link to={`/job-detail/${job?._id}`}>
       <div
-        className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between shadow-lg 
+        className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem] bg-white flex flex-col justify-between
                 rounded-md px-3 py-5 "
       >
        <div className="w-full h-full flex flex-col justify-between">
@@ -15,7 +15,7 @@ const JobCard = ({ job }) => {
           <img
             src={job?.logo}
             alt={job?.name}
-            className="w-14 h-14"
+            className="w-14 h-14 rounded-md"
           />
 
           <div className="w-full h-16 flex flex-col justify-center">

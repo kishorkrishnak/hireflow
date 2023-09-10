@@ -50,7 +50,7 @@ const CompanyForm = ({ open, setOpen }) => {
         setErrMsg({ ...res });
       } else {
         setErrMsg({ status: "success", message: res.message });
-        const newData = { token: res?.token, ...res?.company  };
+        const newData = { token: res?.token, ...res?.company };
 
         dispatch(Login(newData));
         localStorage.setItem("userInfo", JSON.stringify(newData));
@@ -241,10 +241,11 @@ const CompanyProfile = () => {
   return (
     <div className="container mx-auto p-5">
       <div className="">
-        <div className="w-full flex flex-col md:flex-row gap-3 justify-between">
+        <div className="w-full flex flex-col gap-3 justify-between">
           <h2 className="text-gray-600 text-xl font-semibold">
-            Welcome, {info?.name}
+            Welcome to {info?.name}
           </h2>
+          <img src={info?.profileUrl} alt="company-logo" className="rounded-md h-72 w-64" />
 
           {user?.user?.accountType === undefined && info?._id === user?._id && (
             <div className="flex items-center justifu-center py-5 md:py-0 gap-4">
@@ -284,14 +285,14 @@ const CompanyProfile = () => {
       </div>
 
       <div className="w-full mt-20 flex flex-col gap-2">
-        <p>Jobs Posted</p>
+        <p>{info?.jobPosts.length > 0 ?"Jobs Posted":"No Jobs Posted"}</p>
 
         <div className="flex flex-wrap gap-3">
           {info?.jobPosts?.map((job, index) => {
             const data = {
               name: info?.name,
               email: info?.email,
-              logo:info?.profileUrl,
+              logo: info?.profileUrl,
               ...job,
             };
             return <JobCard job={data} key={index} />;

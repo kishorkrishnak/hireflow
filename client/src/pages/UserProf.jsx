@@ -3,11 +3,13 @@ import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { HiLocationMarker } from "react-icons/hi";
+import {GrDocumentPdf} from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
 import { CustomButton, Loading, TextInput } from "../components";
-import { apiRequest, handleFileUpload } from "../utils";
+import { apiRequest, handleFileUpload, handlePdfUpload } from "../utils";
 import { Login } from "../redux/userSlice";
+import { Link } from "react-router-dom";
 
 const UserForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -23,13 +25,16 @@ const UserForm = ({ open, setOpen }) => {
   });
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
-  const [uploadCv, setUploadCv] = useState("");
+  const [resume, setResume] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
       const uri = profileImage && (await handleFileUpload(profileImage));
-      const newData = uri ? { ...data, profileUrl: uri } : data;
+      const resumeUri = resume && (await handlePdfUpload(resume));
+      const newData = uri
+        ? { ...data, profileUrl: uri, resumeUrl: resumeUri }
+        : data;
       const res = await apiRequest({
         url: "/users/update-user",
         token: user?.token,
@@ -176,12 +181,12 @@ const UserForm = ({ open, setOpen }) => {
                       </div>
 
                       <div className="w-1/2">
-                        <label className="text-gray-600 text-sm mb-1">
+                        <label className="text-gray-600 text-sm mb-1 ">
                           Resume
                         </label>
                         <input
                           type="file"
-                          onChange={(e) => setUploadCv(e.target.files[0])}
+                          onChange={(e) => setResume(e.target.files[0])}
                         />
                       </div>
                     </div>
@@ -257,6 +262,9 @@ const UserProfile = () => {
               <AiOutlineMail /> {userInfo?.email ?? "No Email"}
             </p>
             <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
+              <GrDocumentPdf /> {userInfo?.resumeUrl ? <Link target="_blank" to={userInfo?.resumeUrl}>Preview Resume</Link>: "No Resume"}
+            </p>
+            <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
               <FiPhoneCall /> {userInfo?.contact ?? "No Contact"}
             </p>
           </div>
@@ -273,14 +281,14 @@ const UserProfile = () => {
               </span>
             </div>
 
-            <div className="w-full md:w-1/3 h-44">
+            <div className="">
               <img
                 src={userInfo?.profileUrl}
                 alt={userInfo?.firstName}
-                className="w-full h-48 object-contain rounded-lg"
+                className="w-full h-64 md:h-48 rounded-lg"
               />
               <button
-                className="w-full md:w-64 bg-blue-600 text-white mt-4 py-2 rounded"
+                className="w-[100%] bg-blue-600 text-white mt-3 py-2 rounded"
                 onClick={() => setOpen(true)}
               >
                 Edit Profile

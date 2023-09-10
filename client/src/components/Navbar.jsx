@@ -9,7 +9,7 @@ import CustomButton from "./CustomButton";
 import { useSelector, useDispatch } from "react-redux";
 import { Logout } from "../redux/userSlice";
 import { User } from "../assets";
-
+import { Logo } from "../assets";
 function MenuList({ user, onClick }) {
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -113,8 +113,9 @@ const Navbar = () => {
       <div className="relative bg-[#f7fdfd] z-50">
         <nav className="container mx-auto flex items-center justify-between p-5">
           <div>
-            <Link to="/" className="text-blue-600 font-bold text-xl">
-              Job<span className="text-[#1677cccb]"> Station</span>
+            <Link to="/" className="text-blue-600 font-bold text-xl flex items-center gap-2">
+              <img src={Logo} height={28} width={28} alt="logo" />
+             Job<span className="text-[#1677cccb]"> Station</span>
             </Link>
           </div>
 

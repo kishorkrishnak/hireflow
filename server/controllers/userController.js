@@ -11,10 +11,11 @@ export const updateUser = async (req, res, next) => {
     profileUrl,
     jobTitle,
     about,
+    resumeUrl
   } = req.body;
 
   try {
-    if (!firstName || !lastName || !email || !contact || !jobTitle || !about) {
+    if (!firstName || !lastName || !email || !contact || !jobTitle || !about || !resumeUrl) {
       next("Please provide all required fields");
     }
 
@@ -31,13 +32,13 @@ export const updateUser = async (req, res, next) => {
       contact,
       location,
       profileUrl,
+      resumeUrl,
       jobTitle,
       about,
       _id: id,
     };
 
     const user = await Users.findByIdAndUpdate(id, updateUser, { new: true });
-
     const token = user.createJWT();
 
     user.password = undefined;

@@ -43,7 +43,7 @@ const Header = ({
   setLocation,
 }) => {
   return (
-    <div className="bg-[#f7fdfd]">
+    <div className="bg-[#f7fdfd] bg-red-400 h-[500px]">
       <div
         className={`container mx-auto px-5 ${
           type ? "h-[500px]" : "h-[350px]"

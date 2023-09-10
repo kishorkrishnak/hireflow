@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
-import { Linkedin } from "../assets";
 import moment from "moment";
-import { AiOutlineSafetyCertificate } from "react-icons/ai";
-import { useParams } from "react-router-dom";
-import { jobs } from "../utils/data";
-import { CustomButton, JobCard, Loading } from "../components";
+import { useEffect, useState } from "react";
+import { AiOutlineMail, AiOutlineSafetyCertificate } from "react-icons/ai";
+import { HiLocationMarker } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { CustomButton, JobCard, Loading } from "../components";
 import { apiRequest } from "../utils";
 
 const JobDetail = () => {
@@ -60,12 +59,12 @@ const JobDetail = () => {
 
   return (
     <div className="container mx-auto">
-      <div className="w-full flex flex-col md:flex-row gap-10">
+      <div className="w-full flex flex-col md:flex-row gap-10 ">
         {/* LEFT SIDE */}
         {isFetching ? (
           <Loading />
         ) : (
-          <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
+          <div className="mb-3 w-full h-fit md:w-2.5/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md rounded-lg">
             <div className="w-full flex items-center justify-between">
               <div className="w-3/4 flex gap-2">
                 <img
@@ -79,11 +78,13 @@ const JobDetail = () => {
                     {job?.jobTitle}
                   </p>
 
-                  <span className="text-base">{job?.location}</span>
+                  <p className="text-base flex items-center gap-1">{job?.location}</p>
 
-                  <span className="text-base text-blue-600">
-                    {job?.company?.name}
-                  </span>
+               
+                    <Link className="text-base text-blue-600" to={`/company-profile/${job?.company?._id}`}>
+                      {job?.company?.name}
+                    </Link>
+               
 
                   <span className="text-gray-500 text-sm">
                     {moment(job?.createdAt).fromNow()}
@@ -177,8 +178,9 @@ const JobDetail = () => {
                     <p className="text-xl text-blue-600 font-semibold">
                       {job?.company?.name}
                     </p>
-                    <span className="text-base">{job?.company?.location}</span>
-                    <span className="text-sm">{job?.company?.email}</span>
+                    <span className="text-sm flex items-center gap-1"><HiLocationMarker /> {job?.company?.location}</span>
+
+                    <span className="text-sm flex items-center gap-1"><AiOutlineMail/>{job?.company?.email}</span>
                   </div>
 
                   <p className="text-xl font-semibold">About Company</p>
@@ -205,9 +207,9 @@ const JobDetail = () => {
         )}
         {/* RIGHT SIDE */}
         <div className="w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0">
-          <p className="text-gray-500 font-semibold">Similar Job Post</p>
+          <p className="text-gray-500 text-md font-semibold">Similar Job Posts</p>
 
-          <div className="w-full flex flex-wrap gap-4">
+          <div className="w-full flex flex-wrap gap-4 mt-2">
             {similarJobs?.slice(0, 6).map((job, index) => {
               const data = {
                 name: job?.company.name,
