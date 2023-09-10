@@ -12,10 +12,13 @@ import {
   UserProf,
 } from "./pages";
 import { useSelector } from "react-redux";
+import Applications from "./pages/Applications";
+import Applicants from "./pages/Applicants";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();
+  console.log(user);
 
   return user?.token ? (
     <Outlet />
@@ -38,6 +41,8 @@ function App() {
           />
           <Route path="/find-jobs" element={<FindJobs />} />
           <Route path="/companies" element={<Companies />} />
+          <Route path="/applications" element={<Applications />} />
+          <Route path="/applicants" element={<Applicants />} />
           <Route
             path={
               user?.accountType === "seeker"

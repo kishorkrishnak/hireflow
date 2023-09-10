@@ -7,7 +7,7 @@ import CustomButton from "./CustomButton";
 
 const Footer = () => {
   return (
-    <footer className="text-white mp-20 mt-4">
+    <footer className="text-white mp-20">
       <div className="overflow-x-hidden -mb-0.5">
    
       </div>

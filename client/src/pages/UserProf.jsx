@@ -3,13 +3,14 @@ import { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { HiLocationMarker } from "react-icons/hi";
-import {GrDocumentPdf} from "react-icons/gr";
+import { GrDocumentPdf } from "react-icons/gr";
 import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
 import { CustomButton, Loading, TextInput } from "../components";
 import { apiRequest, handleFileUpload, handlePdfUpload } from "../utils";
 import { Login } from "../redux/userSlice";
 import { Link } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const UserForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -27,14 +28,19 @@ const UserForm = ({ open, setOpen }) => {
   const [profileImage, setProfileImage] = useState("");
   const [resume, setResume] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoadingToast, setIsLoadingToast] = useState(null);
   const onSubmit = async (data) => {
     setIsSubmitting(true);
+    setIsLoadingToast(toast.loading("Updating Profile...")); // Show loading toast
     try {
       const uri = profileImage && (await handleFileUpload(profileImage));
       const resumeUri = resume && (await handlePdfUpload(resume));
-      const newData = uri
+      let newData = uri
         ? { ...data, profileUrl: uri, resumeUrl: resumeUri }
         : data;
+        console.log(resumeUri);
+      if (resumeUri) newData.resumeUrl = resumeUri;
+
       const res = await apiRequest({
         url: "/users/update-user",
         token: user?.token,
@@ -45,16 +51,17 @@ const UserForm = ({ open, setOpen }) => {
         const newData = { token: res?.token, ...res?.user };
         dispatch(Login(newData));
         localStorage.setItem("userInfo", JSON.stringify(newData));
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        toast.dismiss(isLoadingToast);
+        setIsLoadingToast(null);
+        toast.success("Profile Updated Successfully");
       }
       setIsSubmitting(false);
     } catch (error) {
-      setIsSubmitting(false);
+      toast.dismiss(isLoadingToast);
+      setIsLoadingToast(null);
 
-      console.log(error);
+      toast.error("Operation failed");
+      setIsSubmitting(false);
     }
   };
 
@@ -262,7 +269,14 @@ const UserProfile = () => {
               <AiOutlineMail /> {userInfo?.email ?? "No Email"}
             </p>
             <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
-              <GrDocumentPdf /> {userInfo?.resumeUrl ? <Link target="_blank" to={userInfo?.resumeUrl}>Preview Resume</Link>: "No Resume"}
+              <GrDocumentPdf />{" "}
+              {userInfo?.resumeUrl ? (
+                <Link target="_blank" to={userInfo?.resumeUrl}>
+                  Preview Resume
+                </Link>
+              ) : (
+                "No Resume"
+              )}
             </p>
             <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
               <FiPhoneCall /> {userInfo?.contact ?? "No Contact"}
@@ -297,7 +311,7 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-
+      <Toaster />
       <UserForm open={open} setOpen={setOpen} />
     </div>
   );

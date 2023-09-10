@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
 import { BiBriefcaseAlt2 } from "react-icons/bi";
 import { BsStars } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
-
-import Header from "../components/Header";
-import { experience, jobTypes, jobs } from "../utils/data";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CustomButton, JobCard, ListBox, Loading } from "../components";
+import Header from "../components/Header";
+import HowItWorks from "../components/HowItWorks";
 import { apiRequest, updateURL } from "../utils";
+import { experience, jobTypes } from "../utils/data";
 
 const FindJobs = () => {
   const [sort, setSort] = useState("Newest");
@@ -89,7 +89,7 @@ const FindJobs = () => {
         newExpVal.push(Number(newEl[0]), Number(newEl[1]));
       });
       newExpVal?.sort((a, b) => a - b);
-      
+
       setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal.length - 1]}`);
     }
   }, [expVal]);
@@ -98,121 +98,129 @@ const FindJobs = () => {
     fetchJobs();
   }, [sort, filterJobTypes, filterExp, page]);
   return (
-    <div>
-      <Header
-        title="Find Your Dream Job with Ease"
-        type="home"
-        handleClick={handleSearchSubmit}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        location={jobLocation}
-        setLocation={setJobLocation}
-      />
+    <>
+      <div>
+        <Header
+          title="Find Your Dream Job with Ease"
+          type="home"
+          handleClick={handleSearchSubmit}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          location={jobLocation}
+          setLocation={setJobLocation}
+        />
 
-      <div className="container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6 bg-[#f7fdfd]">
-        <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm p-4 rounded-md">
-          <p className="text-lg font-semibold text-slate-600">Filter Search</p>
 
-          <div className="py-2">
-            <div className="flex justify-between mb-3">
-              <p className="flex items-center gap-2 font-semibold">
-                <BiBriefcaseAlt2 />
-                Job Type
-              </p>
-
-              <button>
-                <MdOutlineKeyboardArrowDown />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {jobTypes.map((jtype, index) => (
-                <div
-                  key={index}
-                  className="flex gap-2 text-sm md:text-base items-center"
-                >
-                  <input
-                    type="checkbox"
-                    value={jtype}
-                    className="w-4 h-4"
-                    onChange={(e) => filterJobs(e.target.value)}
-                  />
-                  <span>{jtype}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="py-2 mt-4">
-            <div className="flex justify-between mb-3">
-              <p className="flex items-center gap-2 font-semibold">
-                <BsStars />
-                Experience
-              </p>
-
-              <button>
-                <MdOutlineKeyboardArrowDown />
-              </button>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {experience.map((exp) => (
-                <div key={exp.title} className="flex gap-3 items-center">
-                  <input
-                    type="checkbox"
-                    value={exp?.value}
-                    className="w-4 h-4"
-                    onChange={(e) => filterExperience(e.target)}
-                  />
-                  <span>{exp.title}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full md:w-5/6 px-5 md:px-0">
-          <div className="flex items-center justify-between mb-4">
-            <p className="text-sm md:text-base">
-              Showing: <span className="font-semibold">{recordCount}</span> Jobs
-              Available
+        <div className="container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6">
+          <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm p-4 rounded-md">
+            <p className="text-lg font-semibold text-slate-600">
+              Filter Search
             </p>
 
-            <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
-              <p className="text-sm md:text-base">Sort By:</p>
+            <div className="py-2">
+              <div className="flex justify-between mb-3">
+                <p className="flex items-center gap-2 font-semibold">
+                  <BiBriefcaseAlt2 />
+                  Job Type
+                </p>
 
-              <ListBox sort={sort} setSort={setSort} />
+                <button>
+                  <MdOutlineKeyboardArrowDown />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {jobTypes.map((jtype, index) => (
+                  <div
+                    key={index}
+                    className="flex gap-2 text-sm md:text-base items-center"
+                  >
+                    <input
+                      type="checkbox"
+                      value={jtype}
+                      className="w-4 h-4"
+                      onChange={(e) => filterJobs(e.target.value)}
+                    />
+                    <span>{jtype}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="py-2 mt-4">
+              <div className="flex justify-between mb-3">
+                <p className="flex items-center gap-2 font-semibold">
+                  <BsStars />
+                  Experience
+                </p>
+
+                <button>
+                  <MdOutlineKeyboardArrowDown />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-2">
+                {experience.map((exp) => (
+                  <div key={exp.title} className="flex gap-3 items-center">
+                    <input
+                      type="checkbox"
+                      value={exp?.value}
+                      className="w-4 h-4"
+                      onChange={(e) => filterExperience(e.target)}
+                    />
+                    <span>{exp.title}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className="w-full flex flex-wrap gap-4">
-            {data?.map((job, index) => {
-              const newJob = {
-                name: job?.company?.name,
-                logo: job?.company?.profileUrl,
-                ...job,
-              };
-              return <JobCard job={newJob} key={index} />;
-            })}
-          </div>
-          {isFetching && (
-            <div className="py-10">
-              <Loading />
-            </div>
-          )}
+          <div className="w-full h-fit md:w-5/6 px-5 md:px-0">
+            <div className="flex items-center justify-between mb-4">
+              <p className="text-sm md:text-base m-none">
+                Showing: <span className="font-semibold">{recordCount}</span>{" "}
+                Jobs Available
+              </p>
 
-          {numPage > page && !isFetching && (
-            <div className="w-full flex items-center justify-center pt-16">
-              <CustomButton
-                onClick={handleShowMore}
-                title="Load More"
-                containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
-              />
+              <div className="flex flex-col md:flex-row gap-0 md:gap-2 md:items-center">
+                <p className="text-sm md:text-base">Sort By:</p>
+
+                <ListBox sort={sort} setSort={setSort} />
+              </div>
             </div>
-          )}
+
+            <div className="w-full flex flex-wrap gap-4">
+              {data?.map((job, index) => {
+                const newJob = {
+                  name: job?.company?.name,
+                  logo: job?.company?.profileUrl,
+                  ...job,
+                };
+                return <JobCard job={newJob} key={index} />;
+              })}
+            </div>
+            {isFetching && (
+              <div className="py-10">
+                <Loading />
+              </div>
+            )}
+
+            {numPage > page && !isFetching && (
+              <div className="w-full flex items-center justify-center pt-16">
+                <CustomButton
+                  onClick={handleShowMore}
+                  title="Load More"
+                  containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
+                />
+              </div>
+            )}
+          </div>
         </div>
+        <HowItWorks></HowItWorks>
+
       </div>
-    </div>
+
+    </>
   );
 };
 

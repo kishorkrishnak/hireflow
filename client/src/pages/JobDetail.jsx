@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { CustomButton, JobCard, Loading } from "../components";
 import { apiRequest } from "../utils";
-
+import { Dialog, Transition } from "@headlessui/react";
+import { Fragment } from "react";
 const JobDetail = () => {
   const { user } = useSelector((state) => state.user);
   const { id } = useParams();
@@ -15,7 +16,11 @@ const JobDetail = () => {
 
   const [isFetching, setIsFetching] = useState(false);
   const [selected, setSelected] = useState("0");
+  let [isOpen, setIsOpen] = useState(false);
 
+  const applyToJob = async () =>{
+    
+  }
   const getJobDetails = async () => {
     setIsFetching(true);
     try {
@@ -52,6 +57,14 @@ const JobDetail = () => {
       console.log(error);
     }
   };
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
+  function openModal() {
+    setIsOpen(true);
+  }
   useEffect(() => {
     id && getJobDetails();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
@@ -59,6 +72,67 @@ const JobDetail = () => {
 
   return (
     <div className="container mx-auto">
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-10" onClose={closeModal}>
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <div className="fixed inset-0 bg-black bg-opacity-25" />
+          </Transition.Child>
+
+          <div className="fixed inset-0 overflow-y-auto">
+            <div className="flex min-h-full items-center justify-center p-4 text-center">
+              <Transition.Child
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-lg font-medium leading-6 text-gray-900"
+                  >
+                    Apply to this job ?
+                  </Dialog.Title>
+                  <div className="mt-2">
+                    <p className="text-sm text-gray-500">
+                    By applying for this job, your contact details and resume will be shared with the employer. Are you sure you want to proceed?
+                    </p>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="button"
+                      className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                     Apply
+                    </button>
+                    <button
+                      type="button"
+                      className="ml-2 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      onClick={closeModal}
+                    >
+                   Cancel
+                    </button>
+                  </div>
+                </Dialog.Panel>
+              </Transition.Child>
+            </div>
+          </div>
+        </Dialog>
+      </Transition>
+
       <div className="w-full flex flex-col md:flex-row gap-10 ">
         {/* LEFT SIDE */}
         {isFetching ? (
@@ -78,13 +152,16 @@ const JobDetail = () => {
                     {job?.jobTitle}
                   </p>
 
-                  <p className="text-base flex items-center gap-1">{job?.location}</p>
+                  <p className="text-base flex items-center gap-1">
+                    {job?.location}
+                  </p>
 
-               
-                    <Link className="text-base text-blue-600" to={`/company-profile/${job?.company?._id}`}>
-                      {job?.company?.name}
-                    </Link>
-               
+                  <Link
+                    className="text-base text-blue-600"
+                    to={`/company-profile/${job?.company?._id}`}
+                  >
+                    {job?.company?.name}
+                  </Link>
 
                   <span className="text-gray-500 text-sm">
                     {moment(job?.createdAt).fromNow()}
@@ -178,9 +255,14 @@ const JobDetail = () => {
                     <p className="text-xl text-blue-600 font-semibold">
                       {job?.company?.name}
                     </p>
-                    <span className="text-sm flex items-center gap-1"><HiLocationMarker /> {job?.company?.location}</span>
+                    <span className="text-sm flex items-center gap-1">
+                      <HiLocationMarker /> {job?.company?.location}
+                    </span>
 
-                    <span className="text-sm flex items-center gap-1"><AiOutlineMail/>{job?.company?.email}</span>
+                    <span className="text-sm flex items-center gap-1">
+                      <AiOutlineMail />
+                      {job?.company?.email}
+                    </span>
                   </div>
 
                   <p className="text-xl font-semibold">About Company</p>
@@ -198,6 +280,7 @@ const JobDetail = () => {
                 />
               ) : (
                 <CustomButton
+                  onClick={openModal}
                   title="Apply Now"
                   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
                 />
@@ -207,7 +290,9 @@ const JobDetail = () => {
         )}
         {/* RIGHT SIDE */}
         <div className="w-full md:w-1/3 2xl:w-2/4 p-5 mt-20 md:mt-0">
-          <p className="text-gray-500 text-md font-semibold">Similar Job Posts</p>
+          <p className="text-gray-500 text-md font-semibold">
+            Similar Job Posts
+          </p>
 
           <div className="w-full flex flex-wrap gap-4 mt-2">
             {similarJobs?.slice(0, 6).map((job, index) => {

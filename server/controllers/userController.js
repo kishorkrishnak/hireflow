@@ -11,11 +11,12 @@ export const updateUser = async (req, res, next) => {
     profileUrl,
     jobTitle,
     about,
-    resumeUrl
+    resumeUrl,
   } = req.body;
 
   try {
-    if (!firstName || !lastName || !email || !contact || !jobTitle || !about || !resumeUrl) {
+ 
+    if (!firstName || !lastName || !email || !contact || !jobTitle || !about) {
       next("Please provide all required fields");
     }
 

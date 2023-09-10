@@ -111,11 +111,19 @@ const Navbar = () => {
   return (
     <>
       <div className="relative bg-[#f7fdfd] z-50">
-        <nav className="container mx-auto flex items-center justify-between p-5">
+        <nav
+          onClick={() => {
+            console.log(user);
+          }}
+          className="container mx-auto flex items-center justify-between p-5"
+        >
           <div>
-            <Link to="/" className="text-blue-600 font-bold text-xl flex items-center gap-2">
+            <Link
+              to="/"
+              className="text-blue-600 font-bold text-xl flex items-center gap-2"
+            >
               <img src={Logo} height={28} width={28} alt="logo" />
-             Job<span className="text-[#1677cccb]"> Station</span>
+              Job<span className="text-[#1677cccb]"> Station</span>
             </Link>
           </div>
 

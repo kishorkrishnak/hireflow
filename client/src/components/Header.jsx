@@ -43,7 +43,7 @@ const Header = ({
   setLocation,
 }) => {
   return (
-    <div className="bg-[#f7fdfd] bg-red-400 h-[500px]">
+    <div className="h-[500px]">
       <div
         className={`container mx-auto px-5 ${
           type ? "h-[500px]" : "h-[350px]"
@@ -87,7 +87,6 @@ const Header = ({
                   key={index}
                   onClick={(e) => {
                     setSearchQuery(search);
-                    handleClick(e);
                   }}
                   className="cursor-pointer bg-[#1d4fd826] text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
                 >
@@ -99,7 +98,7 @@ const Header = ({
         </div>
 
         <div className="w-1/3 h-full absolute top-24 md:-top-6 lg:-top-14 right-16 2xl:right-[18rem]">
-          <img src={HeroImage} className="object-contain" />
+          <img src={HeroImage} className="object-contain" alt="header" />
         </div>
       </div>
     </div>

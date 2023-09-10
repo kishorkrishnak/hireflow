@@ -10,6 +10,7 @@ import { companies, jobs } from "../utils/data";
 import { CustomButton, JobCard, Loading, TextInput } from "../components";
 import { apiRequest, handleFileUpload } from "../utils";
 import { Login } from "../redux/userSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const CompanyForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -26,12 +27,14 @@ const CompanyForm = ({ open, setOpen }) => {
 
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
-  const [uploadCv, setUploadCv] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errMsg, setErrMsg] = useState({ status: false, message: "" });
+  const [isLoadingToast, setIsLoadingToast] = useState(null);
 
   const onSubmit = async (data) => {
     setIsLoading(true);
+    setIsLoadingToast(toast.loading("Updating Profile...")); // Show loading toast
+
     setErrMsg(null);
     const uri = profileImage && (await handleFileUpload(profileImage));
 
@@ -48,20 +51,24 @@ const CompanyForm = ({ open, setOpen }) => {
 
       if (res.status === "failed") {
         setErrMsg({ ...res });
+        toast.dismiss(isLoadingToast);
+        setIsLoadingToast(null);
+        toast.error("Error while updating profile");
       } else {
         setErrMsg({ status: "success", message: res.message });
         const newData = { token: res?.token, ...res?.company };
-
         dispatch(Login(newData));
         localStorage.setItem("userInfo", JSON.stringify(newData));
-
-        setTimeout(() => {
-          window.location.reload();
-        }, 1500);
+        toast.dismiss(isLoadingToast);
+        setIsLoadingToast(null);
+        toast.success("Profile Updated Successfully");
       }
     } catch (error) {
       console.log(error);
       setIsLoading(false);
+      toast.dismiss(isLoadingToast);
+      setIsLoadingToast(null);
+      toast.error("Error while updating profile");
     }
   };
 
@@ -245,7 +252,11 @@ const CompanyProfile = () => {
           <h2 className="text-gray-600 text-xl font-semibold">
             Welcome to {info?.name}
           </h2>
-          <img src={info?.profileUrl} alt="company-logo" className="rounded-md h-72 w-64" />
+          <img
+            src={info?.profileUrl}
+            alt="company-logo"
+            className="rounded-md h-72 w-64"
+          />
 
           {user?.user?.accountType === undefined && info?._id === user?._id && (
             <div className="flex items-center justifu-center py-5 md:py-0 gap-4">
@@ -285,7 +296,7 @@ const CompanyProfile = () => {
       </div>
 
       <div className="w-full mt-20 flex flex-col gap-2">
-        <p>{info?.jobPosts.length > 0 ?"Jobs Posted":"No Jobs Posted"}</p>
+        <p>{info?.jobPosts.length > 0 ? "Jobs Posted" : "No Jobs Posted"}</p>
 
         <div className="flex flex-wrap gap-3">
           {info?.jobPosts?.map((job, index) => {
@@ -299,7 +310,7 @@ const CompanyProfile = () => {
           })}
         </div>
       </div>
-
+      <Toaster></Toaster>
       <CompanyForm open={openForm} setOpen={setOpenForm} />
     </div>
   );
