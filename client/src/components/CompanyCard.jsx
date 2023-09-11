@@ -10,7 +10,7 @@ const CompanyCard = ({ cmp }) => {
           <img
             src={cmp?.profileUrl}
             alt={cmp?.name}
-            className='w-12 md:w-16 h-12 md:h-20 rounded'
+            className='w-12 md:w-16 h-12 md:h-16 rounded'
           />
         <div className='h-full flex flex-col'>
           <Link

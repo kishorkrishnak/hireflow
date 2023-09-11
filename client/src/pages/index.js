@@ -5,7 +5,7 @@ import FindJobs from "./FindJobs";
 import JobDetail from "./JobDetail";
 import CompanyProfile from "./CompanyProfile";
 import UploadJob from "./UploadJob";
-import UserProf from "./UserProf";
+import UserProfile from "./UserProfile";
 import Header from "../components/Header";
 export {
   About,
@@ -16,5 +16,5 @@ export {
   JobDetail,
   UploadJob,
   CompanyProfile,
-  UserProf
+  UserProfile
 };

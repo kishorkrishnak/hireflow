@@ -1,16 +1,15 @@
-import React, { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { HiLocationMarker } from "react-icons/hi";
-import { AiOutlineMail } from "react-icons/ai";
-import { FiPhoneCall, FiEdit3, FiUpload } from "react-icons/fi";
-import { Link, useParams } from "react-router-dom";
-import { companies, jobs } from "../utils/data";
-import { CustomButton, JobCard, Loading, TextInput } from "../components";
-import { apiRequest, handleFileUpload } from "../utils";
-import { Login } from "../redux/userSlice";
 import toast, { Toaster } from "react-hot-toast";
+import { AiOutlineMail } from "react-icons/ai";
+import { FiEdit3, FiPhoneCall, FiUpload } from "react-icons/fi";
+import { HiLocationMarker } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { CustomButton, JobCard, Loading, TextInput } from "../components";
+import { Login } from "../redux/userSlice";
+import { apiRequest, handleFileUpload } from "../utils";
 
 const CompanyForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -207,7 +206,6 @@ const CompanyForm = ({ open, setOpen }) => {
 const CompanyProfile = () => {
   const params = useParams();
   const { user } = useSelector((state) => state.user);
-  console.log(user);
   const [info, setInfo] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [openForm, setOpenForm] = useState(false);
@@ -239,7 +237,7 @@ const CompanyProfile = () => {
   useEffect(() => {
     fetchCompany();
     window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
-  }, []);
+  }, [user, params?.id]);
 
   if (isLoading) {
     return <Loading />;

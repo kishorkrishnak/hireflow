@@ -15,7 +15,6 @@ export const updateUser = async (req, res, next) => {
   } = req.body;
 
   try {
- 
     if (!firstName || !lastName || !email || !contact || !jobTitle || !about) {
       next("Please provide all required fields");
     }
@@ -53,6 +52,32 @@ export const updateUser = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     res.status(404).json({ message: error.message });
+  }
+};
+
+export const getUserProfile = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const user = await Users.findById({ _id: id });
+
+    if (!user) {
+      return res.status(200).send({
+        message: "User Not Found",
+        success: false,
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      success: false,
+      error: error.message,
+    });
   }
 };
 

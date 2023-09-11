@@ -1,16 +1,16 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { HiLocationMarker } from "react-icons/hi";
-import { GrDocumentPdf } from "react-icons/gr";
+import toast, { Toaster } from "react-hot-toast";
 import { AiOutlineMail } from "react-icons/ai";
 import { FiPhoneCall } from "react-icons/fi";
+import { GrDocumentPdf } from "react-icons/gr";
+import { HiLocationMarker } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import { CustomButton, Loading, TextInput } from "../components";
-import { apiRequest, handleFileUpload, handlePdfUpload } from "../utils";
 import { Login } from "../redux/userSlice";
-import { Link } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import { apiRequest, handleFileUpload, handlePdfUpload } from "../utils";
 
 const UserForm = ({ open, setOpen }) => {
   const { user } = useSelector((state) => state.user);
@@ -24,6 +24,7 @@ const UserForm = ({ open, setOpen }) => {
     mode: "onChange",
     defaultValues: { ...user },
   });
+  
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
   const [resume, setResume] = useState("");
@@ -38,7 +39,7 @@ const UserForm = ({ open, setOpen }) => {
       let newData = uri
         ? { ...data, profileUrl: uri, resumeUrl: resumeUri }
         : data;
-        console.log(resumeUri);
+      console.log(resumeUri);
       if (resumeUri) newData.resumeUrl = resumeUri;
 
       const res = await apiRequest({
@@ -245,75 +246,101 @@ const UserForm = ({ open, setOpen }) => {
 };
 
 const UserProfile = () => {
+  const { id } = useParams();
   const { user } = useSelector((state) => state.user);
+  const [userInfo, setUserInfo] = useState(null);
   const [open, setOpen] = useState(false);
-  const userInfo = user;
-
+  const getUserProfile = async () => {
+    try {
+      if (user._id === id) {
+        setUserInfo(user);
+        return;
+      }
+      const res = await apiRequest({
+        url: "/users/get-userprofile/" + id,
+        method: "GET",
+      });
+      setUserInfo(res.user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUserProfile();
+  }, [user]);
   return (
-    <div className="container mx-auto flex items-center justify-center py-10">
-      <div className="w-full md:w-2/3 2xl:w-2/4 bg-white shadow-lg p-10 pb-20 rounded-lg">
-        <div className="flex flex-col items-center justify-center mb-4">
-          <h1 className="text-4xl font-semibold text-slate-600">
-            {userInfo?.firstName + " " + userInfo?.lastName}
-          </h1>
+    <>
+      {userInfo && (
+        <div className="container mx-auto flex items-center justify-center py-10">
+          <div className="w-full md:w-2/3 2xl:w-2/4 bg-white shadow-lg p-10 pb-20 rounded-lg">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-4xl font-semibold text-slate-600">
+                {userInfo?.firstName + " " + userInfo?.lastName}
+              </h1>
 
-          <h5 className="text-blue-700 text-base font-bold">
-            {userInfo?.jobTitle || "Add Job Title"}
-          </h5>
+              <h5 className="text-blue-700 text-base font-bold">
+                {userInfo?.jobTitle || "Add Job Title"}
+              </h5>
 
-          <div className="w-full flex flex-wrap lg:flex-row justify-between mt-8 text-sm">
-            <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
-              <HiLocationMarker /> {userInfo?.location ?? "No Location"}
-            </p>
-            <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
-              <AiOutlineMail /> {userInfo?.email ?? "No Email"}
-            </p>
-            <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
-              <GrDocumentPdf />{" "}
-              {userInfo?.resumeUrl ? (
-                <Link target="_blank" to={userInfo?.resumeUrl}>
-                  Preview Resume
-                </Link>
-              ) : (
-                "No Resume"
-              )}
-            </p>
-            <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
-              <FiPhoneCall /> {userInfo?.contact ?? "No Contact"}
-            </p>
-          </div>
-        </div>
-
-        <hr />
-
-        <div className="w-full py-10">
-          <div className="w-full flex flex-col-reverse md:flex-row gap-8 py-6">
-            <div className="w-full md:w-2/3 flex flex-col gap-4 text-lg text-slate-600 mt-20 md:mt-0">
-              <p className="text-[#0536e7]  font-semibold text-2xl">ABOUT</p>
-              <span className="text-base text-justify leading-7">
-                {userInfo?.about ?? "No About Found"}
-              </span>
+              <div className="w-full flex flex-wrap lg:flex-row justify-between mt-8 text-sm">
+                <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
+                  <HiLocationMarker /> {userInfo?.location ?? "No Location"}
+                </p>
+                <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
+                  <AiOutlineMail /> {userInfo?.email ?? "No Email"}
+                </p>
+                <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
+                  <GrDocumentPdf />{" "}
+                  {userInfo?.resumeUrl ? (
+                    <Link target="_blank" to={userInfo?.resumeUrl}>
+                      Preview Resume
+                    </Link>
+                  ) : (
+                    "No Resume"
+                  )}
+                </p>
+                <p className="flex gap-1 items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
+                  <FiPhoneCall /> {userInfo?.contact ?? "No Contact"}
+                </p>
+              </div>
             </div>
 
-            <div className="">
-              <img
-                src={userInfo?.profileUrl}
-                alt={userInfo?.firstName}
-                className="w-full h-64 md:h-48 rounded-lg"
-              />
-              <button
-                className="w-[100%] bg-blue-600 text-white mt-3 py-2 rounded"
-                onClick={() => setOpen(true)}
-              >
-                Edit Profile
-              </button>
+            <hr />
+
+            <div className="w-full py-10">
+              <div className="w-full flex flex-col-reverse md:flex-row gap-8 py-6">
+                <div className="w-full md:w-2/3 flex flex-col gap-4 text-lg text-slate-600 mt-20 md:mt-0">
+                  <p className="text-[#0536e7]  font-semibold text-2xl">
+                    ABOUT
+                  </p>
+                  <span className="text-base text-justify leading-7">
+                    {userInfo?.about ?? "No About Found"}
+                  </span>
+                </div>
+
+                <div className="">
+                  <img
+                    src={userInfo?.profileUrl}
+                    alt={userInfo?.firstName}
+                    className="w-full h-64 md:h-48 rounded-lg"
+                  />
+                  {user._id === userInfo._id && (
+                    <button
+                      className="w-[100%] bg-blue-600 text-white mt-3 py-2 rounded"
+                      onClick={() => setOpen(true)}
+                    >
+                      Edit Profile
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
+          <Toaster />
+          <UserForm open={open} setOpen={setOpen} />
         </div>
-      </div>
-      <Toaster />
-      <UserForm open={open} setOpen={setOpen} />
-    </div>
+      )}
+    </>
   );
 };
 

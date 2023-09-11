@@ -57,7 +57,9 @@ function MenuList({ user, onClick }) {
                 {({ active }) => (
                   <Link
                     to={`${
-                      user?.accountType ? "user-profile" : "company-profile"
+                      user?.accountType
+                        ? `profile/${user?._id}`
+                        : `company-profile/${user?._id}`
                     }`}
                     className={`${
                       active ? "bg-blue-500 text-white" : "text-gray-900"
@@ -131,20 +133,21 @@ const Navbar = () => {
             <li>
               <Link to="/">Find Job</Link>
             </li>
+            {user && user?.accountType !== "seeker" && (
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+            )}
             <li>
               <Link to="/companies">Companies</Link>
             </li>
-            <li>
-              <Link
-                to={
-                  user?.accountType === "seeker"
-                    ? "/applications"
-                    : "/upload-job"
-                }
-              >
-                {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
-              </Link>
-            </li>
+
+            {user && user?.accountType !== "seeker" && (
+              <li>
+                <Link to={"/upload-job"}>Upload Job</Link>
+              </li>
+            )}
+
             <li>
               <Link to="/about-us">About</Link>
             </li>
@@ -182,17 +185,20 @@ const Navbar = () => {
           <Link to="/" onClick={handleCloseNavbar}>
             Find Job
           </Link>
+          {user && user?.accountType !== "seeker" && (
+            <Link onClick={handleCloseNavbar} to="dashboard">
+              Dashboard
+            </Link>
+          )}
           <Link to="/companies" onClick={handleCloseNavbar}>
             Companies
           </Link>
-          <Link
-            onClick={handleCloseNavbar}
-            to={
-              user?.accountType === "seeker" ? "applly-gistory" : "upload-job"
-            }
-          >
-            {user?.accountType === "seeker" ? "Applications" : "Upload Job"}
-          </Link>
+          {user && user?.accountType !== "seeker" && (
+            <Link onClick={handleCloseNavbar} to={"upload-job"}>
+              Upload Job
+            </Link>
+          )}
+
           <Link to="/about-us" onClick={handleCloseNavbar}>
             About
           </Link>

@@ -3,24 +3,46 @@ import { useEffect, useState } from "react";
 import { AiOutlineMail, AiOutlineSafetyCertificate } from "react-icons/ai";
 import { HiLocationMarker } from "react-icons/hi";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { CustomButton, JobCard, Loading } from "../components";
 import { apiRequest } from "../utils";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
+import toast, { Toaster } from "react-hot-toast";
 const JobDetail = () => {
+  const navigate = useNavigate()
   const { user } = useSelector((state) => state.user);
   const { id } = useParams();
   const [job, setJob] = useState(null);
   const [similarJobs, setSimilarJobs] = useState([]);
+  const [isLoadingToast, setIsLoadingToast] = useState(null);
 
   const [isFetching, setIsFetching] = useState(false);
   const [selected, setSelected] = useState("0");
   let [isOpen, setIsOpen] = useState(false);
 
-  const applyToJob = async () =>{
-    
-  }
+  const applyToJob = async () => {
+    setIsLoadingToast(toast.loading("Applying...")); // Show loading toast
+
+    try {
+      const res = await apiRequest({
+        url: "/jobs/add-applicant/" + id,
+        method: "POST",
+        data: { userId: user?._id },
+      });
+      toast.dismiss(isLoadingToast);
+      setIsLoadingToast(null);
+      if (res?.success) {
+        toast.success(res.message);
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.dismiss(isLoadingToast);
+      setIsLoadingToast(null);
+      toast.error("Error while applying to job");
+    }
+  };
   const getJobDetails = async () => {
     setIsFetching(true);
     try {
@@ -106,7 +128,9 @@ const JobDetail = () => {
                   </Dialog.Title>
                   <div className="mt-2">
                     <p className="text-sm text-gray-500">
-                    By applying for this job, your contact details and resume will be shared with the employer. Are you sure you want to proceed?
+                      By applying for this job, your contact details and resume
+                      will be shared with the employer. Are you sure you want to
+                      proceed?
                     </p>
                   </div>
 
@@ -114,16 +138,19 @@ const JobDetail = () => {
                     <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                      onClick={closeModal}
+                      onClick={() => {
+                        applyToJob();
+                        closeModal();
+                      }}
                     >
-                     Apply
+                      Apply
                     </button>
                     <button
                       type="button"
                       className="ml-2 inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
                     >
-                   Cancel
+                      Cancel
                     </button>
                   </div>
                 </Dialog.Panel>
@@ -271,7 +298,14 @@ const JobDetail = () => {
               )}
             </div>
 
-            <div className="w-full">
+            <div className="w-full flex gap-2">
+              {user?._id === job?.company?._id && (
+                <CustomButton
+                  title="View Applications"
+                  onClick={() => navigate(`/applications/${id}`)}
+                  containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+                />
+              )}
               {user?._id === job?.company?._id ? (
                 <CustomButton
                   title="Delete Post"
@@ -306,6 +340,7 @@ const JobDetail = () => {
           </div>
         </div>
       </div>
+      <Toaster></Toaster>
     </div>
   );
 };

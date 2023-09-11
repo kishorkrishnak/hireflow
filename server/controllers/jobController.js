@@ -195,6 +195,8 @@ export const getJobPosts = async (req, res, next) => {
     });
   } catch (error) {
     console.log(error);
+    console.log(error.message);
+
     res.status(404).json({ message: error.message });
   }
 };
@@ -259,4 +261,54 @@ export const deleteJobPost = async (req, res, next) => {
     res.status(404).json({ message: error.message });
   }
 };
- 
+
+export const addApplicant = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+    const job = await Jobs.findOne({ _id: id });
+    if (!userId) {
+      return res.status(200).json({
+        success: false,
+        message: "Invalid user id provided",
+      });
+    }
+    if (job.application.includes(userId)) {
+      return res.status(200).json({
+        success: false,
+        message: "You have already applied for this job",
+      });
+    }
+    job.application.push(userId);
+
+    await job.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Applied to job successfully",
+      job,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "Could not apply to job" });
+  }
+};
+
+export const getApplicants = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const job = await Jobs.findOne({ _id: id }).populate("application");
+
+    const applicants = job?.application;
+    console.log(job);
+    res.status(200).json({
+      success: true,
+      message: "Fetched applicant details",
+      applicants,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
+};
