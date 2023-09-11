@@ -54,7 +54,7 @@ const Header = ({
             <p className="text-slate-700 font-bold text-4xl">{title}</p>
           </div>
 
-          <div className="w-full flex items-center justify-around bg-white px-2 md:px-5 py-2.5 md:py-6 shadow-2xl rounded-full">
+          <div className="w-full flex items-center justify-around bg-white px-2 md:px-5 py-2.5 md:py-6 shadow-2xl rounded-2xl">
             <SearchInput
               placeholder="Job Title or Keywords"
               icon={<AiOutlineSearch className="text-gray-600 text-xl" />}
@@ -97,7 +97,7 @@ const Header = ({
           )}
         </div>
 
-        <div className="w-1/3 h-full absolute top-24 md:-top-6 lg:-top-14 right-16 2xl:right-[18rem]">
+        <div className="w-[300px] h-[280px]  lg:w-1/3 top-20  absolute top-30  lg:-top-4 right-3 lg:right-16 2xl:right-[15rem]">
           <img src={HeroImage} className="object-contain" alt="header" />
         </div>
       </div>

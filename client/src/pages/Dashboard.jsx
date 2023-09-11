@@ -34,13 +34,14 @@ const Dashboard = () => {
     <div className="container mx-auto p-5">
 
     <div className="w-full flex flex-col gap-2">
-      <p>
+      <h1 className="font-semibold text-3xl">Dashboard</h1>
+      <p className="text-xl">
         {info?.jobPosts.length > 0
-          ? "Click on the job to view all the applications"
+          ? "Explore, manage, and track all your posted job listings, view detailed job information, and review applicant details with ease."
           : "No Jobs Posted"}
       </p>
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 mt-3">
         {info?.jobPosts?.map((job, index) => {
           const data = {
             name: info?.name,

@@ -8,9 +8,7 @@ import CustomButton from "./CustomButton";
 const Footer = () => {
   return (
     <footer className="text-white mp-20">
-      <div className="overflow-x-hidden -mb-0.5">
-   
-      </div>
+      <div className="overflow-x-hidden -mb-0.5"></div>
 
       <div className="bg-[#1d4ed8] ">
         <div className="container px-5 py-20 mx-auto ">
@@ -79,7 +77,7 @@ const Footer = () => {
         <div className="bg-[#001a36]">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p className="text-gray-300 text-sm text-center sm:text-left">
-              &copy; 2023 Job Finder —
+              &copy; 2023 Job Station —
               <a
                 href="https://youtube.com/@CodeWaveWithAsante"
                 className="text-[#1199e7] ml-1"

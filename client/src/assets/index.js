@@ -2,7 +2,7 @@ import Logo from "./logo.svg";
 import CodeWave from "./codewave.png";
 import Facebook from "./facebook.png";
 import Google from "./google.png";
-import HeroImage from "./hero.png";
+import HeroImage from "./uu.png";
 import Instagram from "./instagram.png";
 import JobImg from "./job.jpg";
 import Linkedin from "./linkedin.png";

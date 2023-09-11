@@ -24,7 +24,7 @@ const UserForm = ({ open, setOpen }) => {
     mode: "onChange",
     defaultValues: { ...user },
   });
-  
+
   const dispatch = useDispatch();
   const [profileImage, setProfileImage] = useState("");
   const [resume, setResume] = useState("");

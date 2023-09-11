@@ -77,7 +77,7 @@ const UploadJob = () => {
   }, []);
   return (
     <div className="container mx-auto flex flex-col md:flex-row gap-8 2xl:gap-14 bg-[#f7fdfd] px-5">
-      <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 md:px-10 shadow-md">
+      <div className="w-full h-fit md:w-2/3 2xl:2/4 bg-white px-5 py-10 mb-3 md:px-10 shadow-md">
         <div>
           <p className="text-gray-500 font-semibold text-2xl">Job Post</p>
 
@@ -197,7 +197,7 @@ const UploadJob = () => {
                 <CustomButton
                   type="submit"
                   containerStyles="inline-flex justify-center rounded-md border border-transparent bg-blue-600 px-8 py-2 text-sm font-medium text-white hover:bg-[#1d4fd846] hover:text-[#1d4fd8] focus:outline-none "
-                  title="Sumbit"
+                  title="Submit"
                 />
               )}
             </div>
@@ -211,11 +211,11 @@ const UploadJob = () => {
           {recentPost?.slice(0, 4).map((job, index) => {
             console.log(user);
             const data = {
-              name:user?.name,
-              email:user?.email,
-              logo:user?.profileUrl,
-              ...job
-            }
+              name: user?.name,
+              email: user?.email,
+              logo: user?.profileUrl,
+              ...job,
+            };
             return <JobCard job={data} key={index} />;
           })}
         </div>
