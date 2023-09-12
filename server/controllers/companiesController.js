@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import Companies from "../models/companiesModel.js";
-import { response } from "express";
 
 export const register = async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -180,10 +179,10 @@ export const getCompanies = async (req, res, next) => {
 
     // SORTING
     if (sort === "Newest") {
-      queryResult = queryResult.sort("-createdAt");
+      queryResult = queryResult.sort({ _id: -1 });
     }
     if (sort === "Oldest") {
-      queryResult = queryResult.sort("createdAt");
+      queryResult = queryResult.sort({ _id: 1 });
     }
     if (sort === "A-Z") {
       queryResult = queryResult.sort("name");
@@ -192,7 +191,7 @@ export const getCompanies = async (req, res, next) => {
       queryResult = queryResult.sort("-name");
     }
 
-    // PADINATIONS
+    // PAGINATIONS
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 20;
 

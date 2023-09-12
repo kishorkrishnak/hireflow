@@ -133,20 +133,23 @@ const Navbar = () => {
             <li>
               <Link to="/">Find Job</Link>
             </li>
-            {user && user?.accountType !== "seeker" && (
-              <li>
-                <Link to="/dashboard">Dashboard</Link>
-              </li>
-            )}
+            {user &&
+              Object.keys(user)?.length > 0 &&
+              user?.accountType !== "seeker" && (
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+              )}
             <li>
               <Link to="/companies">Companies</Link>
             </li>
-
-            {user && user?.accountType !== "seeker" && (
-              <li>
-                <Link to={"/upload-job"}>Upload Job</Link>
-              </li>
-            )}
+            {user &&
+              Object.keys(user)?.length > 0 &&
+              user?.accountType !== "seeker" && (
+                <li>
+                  <Link to={"/upload-job"}>Upload Job</Link>
+                </li>
+              )}
 
             <li>
               <Link to="/about-us">About</Link>
@@ -185,7 +188,9 @@ const Navbar = () => {
           <Link to="/" onClick={handleCloseNavbar}>
             Find Job
           </Link>
-          {user && user?.accountType !== "seeker" && (
+          {user &&
+              Object.keys(user)?.length > 0 &&
+              user?.accountType !== "seeker" && (
             <Link onClick={handleCloseNavbar} to="dashboard">
               Dashboard
             </Link>
@@ -193,7 +198,9 @@ const Navbar = () => {
           <Link to="/companies" onClick={handleCloseNavbar}>
             Companies
           </Link>
-          {user && user?.accountType !== "seeker" && (
+          {user &&
+              Object.keys(user)?.length > 0 &&
+              user?.accountType !== "seeker" &&(
             <Link onClick={handleCloseNavbar} to={"upload-job"}>
               Upload Job
             </Link>

@@ -2,7 +2,7 @@ import React from "react";
 import { Hire, Follow, Job } from "../assets";
 
 const Arrow = () => {
-  return <span class="text-3xl text-[dodgerblue]">&#8594;</span>;
+  return <span class="rotate-90 md:rotate-0 text-3xl text-[dodgerblue]">&#8594;</span>;
 };
 const Card = ({ image, title, body }) => {
   return (
@@ -33,7 +33,7 @@ const HowItWorks = () => {
           image={Follow}
           title={"Complete Your Profile"}
           body={
-            "Opening an account is very simple and you can get started right away"
+           "Enhance your profile by uploading your resume and providing contact details"
           }
         ></Card>
         <Arrow />
@@ -42,7 +42,7 @@ const HowItWorks = () => {
           image={Job}
           title={"Apply Job Or Hire"}
           body={
-            "Opening an account is very simple and you can get started right away"
+            "Now that your profile is complete, start applying for jobs or posting job listings"
           }
         ></Card>
       </div>
