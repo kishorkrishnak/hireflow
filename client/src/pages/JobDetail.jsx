@@ -10,7 +10,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import toast, { Toaster } from "react-hot-toast";
 const JobDetail = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const { id } = useParams();
   const [job, setJob] = useState(null);
@@ -302,7 +302,7 @@ const JobDetail = () => {
               {user?._id === job?.company?._id && (
                 <CustomButton
                   title="View Applications"
-                  onClick={() => navigate(`/applications/${id}`)}
+                  onClick={() => navigate(`/jobs/applications/${id}`)}
                   containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
                 />
               )}

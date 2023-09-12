@@ -296,16 +296,52 @@ export const addApplicant = async (req, res, next) => {
 
 export const getApplicants = async (req, res, next) => {
   try {
+    const { search, sort, location } = req.query;
     const { id } = req.params;
 
+    const queryObject = {};
+
+    if (search) {
+      queryObject.name = { $regex: search, $options: "i" };
+    }
+
+    if (location) {
+      queryObject.location = { $regex: location, $options: "i" };
+    }
     const job = await Jobs.findOne({ _id: id }).populate("application");
 
     const applicants = job?.application;
-    console.log(job);
+
+    if (sort === "Newest") {
+      applicants.sort((a, b) => b.createdAt - a.createdAt);
+    }
+    if (sort === "Oldest") {
+      applicants.sort((a, b) => a.createdAt - b.createdAt);
+    }
+    if (sort === "A-Z") {
+      applicants.sort((a, b) => a.firstName?.localeCompare(b?.firstName));
+    }
+    if (sort === "Z-A") {
+      applicants.sort((a, b) => b.firstName?.localeCompare(a?.firstName));
+    }
+
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    // // records count
+    const total = applicants.length;
+
+    const numOfPages = Math.ceil(total / limit);
+
     res.status(200).json({
       success: true,
       message: "Fetched applicant details",
-      applicants,
+      total,
+      data: applicants,
+      page,
+      numOfPages,
     });
   } catch (error) {
     console.log(error);

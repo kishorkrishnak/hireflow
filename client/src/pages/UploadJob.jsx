@@ -207,7 +207,7 @@ const UploadJob = () => {
       <div className="w-full md:w-1/3 2xl:2/4 p-5 mt-20 md:mt-0">
         <p className="text-gray-500 font-semibold">Recent Job Post</p>
 
-        <div className="w-full flex flex-wrap gap-6">
+        <div className="w-full flex flex-wrap gap-6 mt-2">
           {recentPost?.slice(0, 4).map((job, index) => {
             console.log(user);
             const data = {

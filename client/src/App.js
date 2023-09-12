@@ -35,7 +35,7 @@ function App() {
 
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/applications/:id" element={<Applications />} />
+          <Route path="/jobs/applications/:id" element={<Applications />} />
           <Route path={"/profile/:id"} element={<UserProfile />} />
           <Route path={"/upload-job"} element={<UploadJob />} />
         </Route>

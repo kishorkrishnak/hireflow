@@ -31,7 +31,7 @@ const Companies = () => {
       navigate,
       location,
     });
-
+   
     try {
       const res = await apiRequest({
         url: newURL,
