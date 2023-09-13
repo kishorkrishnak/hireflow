@@ -209,7 +209,6 @@ const UploadJob = () => {
 
         <div className="w-full flex flex-wrap gap-6 mt-2">
           {recentPost?.slice(0, 4).map((job, index) => {
-            console.log(user);
             const data = {
               name: user?.name,
               email: user?.email,

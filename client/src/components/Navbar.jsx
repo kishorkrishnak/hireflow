@@ -122,10 +122,10 @@ const Navbar = () => {
           <div>
             <Link
               to="/"
-              className="text-blue-600 font-bold text-xl flex items-center gap-2"
+              className="font-bold text-xl flex items-center gap-1.5"
             >
-              <img src={Logo} height={28} width={28} alt="logo" />
-              Job<span className="text-[#1677cccb]"> Station</span>
+              <img src={Logo} height={35} width={35} alt="logo" />
+              <p>Hire<span className="" >Flow</span></p>
             </Link>
           </div>
 
@@ -189,22 +189,22 @@ const Navbar = () => {
             Find Job
           </Link>
           {user &&
-              Object.keys(user)?.length > 0 &&
-              user?.accountType !== "seeker" && (
-            <Link onClick={handleCloseNavbar} to="dashboard">
-              Dashboard
-            </Link>
-          )}
+            Object.keys(user)?.length > 0 &&
+            user?.accountType !== "seeker" && (
+              <Link onClick={handleCloseNavbar} to="dashboard">
+                Dashboard
+              </Link>
+            )}
           <Link to="/companies" onClick={handleCloseNavbar}>
             Companies
           </Link>
           {user &&
-              Object.keys(user)?.length > 0 &&
-              user?.accountType !== "seeker" &&(
-            <Link onClick={handleCloseNavbar} to={"upload-job"}>
-              Upload Job
-            </Link>
-          )}
+            Object.keys(user)?.length > 0 &&
+            user?.accountType !== "seeker" && (
+              <Link onClick={handleCloseNavbar} to={"upload-job"}>
+                Upload Job
+              </Link>
+            )}
 
           <Link to="/about-us" onClick={handleCloseNavbar}>
             About

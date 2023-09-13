@@ -217,7 +217,7 @@ const JobDetail = () => {
               </div>
 
               <div className="bg-[#fed0ab] w-40 h-16 px-6 rounded-lg flex flex-col items-center justify-center">
-                <span className="text-sm">No. of Applicants</span>
+                <span className="text-sm">Applicant Count</span>
                 <p className="text-lg font-semibold text-gray-700">
                   {job?.application?.length || 0}
                 </p>

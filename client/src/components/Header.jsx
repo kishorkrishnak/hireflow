@@ -88,7 +88,7 @@ const Header = ({
                   onClick={(e) => {
                     setSearchQuery(search);
                   }}
-                  className="cursor-pointer bg-[#1d4fd826] text-[#1d4ed8] py-1 px-2 rounded-full text-sm md:text-base"
+                  className="cursor-pointer bg-[#1d4fd826] text-[#1d4ed8] py-1 px-3 rounded-full text-sm md:text-base"
                 >
                   {search}
                 </span>

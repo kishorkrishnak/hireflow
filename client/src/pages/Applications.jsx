@@ -18,6 +18,8 @@ const Applications = () => {
   const [isFetching, setIsFetching] = useState(false);
   const { id } = useParams();
   const getApplicants = async () => {
+    setIsFetching(true);
+
     const newURL = updateURL({
       pageNum: page,
       query: "",
@@ -34,9 +36,12 @@ const Applications = () => {
         data: { userId: user?._id },
       });
       setApplicants(res?.data);
-      setRecordsCount(res?.total)
+      setRecordsCount(res?.total);
+      setNumPage(res?.numOfPages);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsFetching(false);
     }
   };
   useEffect(() => {

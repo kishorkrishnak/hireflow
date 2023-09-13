@@ -57,17 +57,29 @@ const Footer = () => {
             </div>
 
             <span className="inline-flex lg:ml-auto lg:mt-0 mt-6 w-full justify-center md:justify-start md:w-auto">
-              <a className="text-white text-xl  hover:scale-125 ease-in-out duration-300">
+              <a
+                href="https://github.com/kishorkrishnak"
+                className="text-white text-xl  hover:scale-125 ease-in-out duration-300"
+              >
                 <FaFacebookF />
               </a>
-              <a className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300">
+              <a
+                href="https://github.com/kishorkrishnak"
+                className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300"
+              >
                 <FaTwitter />
               </a>
-              <a className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300">
+              <a
+                href="https://github.com/kishorkrishnak"
+                className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300"
+              >
                 <FiInstagram />
               </a>
 
-              <a className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300">
+              <a
+                href="https://github.com/kishorkrishnak"
+                className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300"
+              >
                 <FaLinkedinIn />
               </a>
             </span>
@@ -77,7 +89,7 @@ const Footer = () => {
         <div className="bg-[#001a36]">
           <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
             <p className="text-gray-300 text-sm text-center sm:text-left">
-              &copy; 2023 Job Station 
+              &copy; 2023 Job Station
             </p>
 
             <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-300 text-sm">

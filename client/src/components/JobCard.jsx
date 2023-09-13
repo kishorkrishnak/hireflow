@@ -25,7 +25,7 @@ const JobCard = ({ job }) => {
               <p className="w-full h-12 flex items-center text-lg font-semibold overflow-hidden leading-5">
                 {job?.jobTitle}
               </p>
-              <span className="flex gap-2 items-center">
+              <span className="flex gap-1 items-center">
                 <GoLocation className="text-slate-900 text-sm" />
                 {job?.location}
               </span>

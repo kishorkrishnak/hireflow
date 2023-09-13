@@ -31,7 +31,7 @@ const Companies = () => {
       navigate,
       location,
     });
-   
+
     try {
       const res = await apiRequest({
         url: newURL,
@@ -41,9 +41,10 @@ const Companies = () => {
       setNumPage(res?.numOfPage);
       setRecordsCount(res?.total);
       setData(res?.data);
-      setIsFetching(false);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsFetching(false);
     }
   };
 

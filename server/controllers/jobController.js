@@ -296,7 +296,7 @@ export const addApplicant = async (req, res, next) => {
 
 export const getApplicants = async (req, res, next) => {
   try {
-    const { search, sort, location } = req.query;
+    const { search, sort, location, pageNum } = req.query;
     const { id } = req.params;
 
     const queryObject = {};
@@ -325,7 +325,7 @@ export const getApplicants = async (req, res, next) => {
       applicants.sort((a, b) => b.firstName?.localeCompare(a?.firstName));
     }
 
-    const page = Number(req.query.page) || 1;
+    const page = Number(pageNum) || 1;
     const limit = Number(req.query.limit) || 20;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
@@ -334,7 +334,7 @@ export const getApplicants = async (req, res, next) => {
     const total = applicants.length;
 
     const numOfPages = Math.ceil(total / limit);
-
+    // applicants = applicants.slice(startIndex, endIndex);
     res.status(200).json({
       success: true,
       message: "Fetched applicant details",

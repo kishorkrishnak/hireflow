@@ -1,4 +1,4 @@
-import Logo from "./logo.svg";
+import Logo from "./logo.png";
 import CodeWave from "./codewave.png";
 import Facebook from "./facebook.png";
 import Google from "./google.png";
