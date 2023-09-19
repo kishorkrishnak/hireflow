@@ -8,7 +8,7 @@ import Header from "../components/Header";
 import HowItWorks from "../components/HowItWorks";
 import { apiRequest, updateURL } from "../utils";
 import { experience, jobTypes } from "../utils/data";
-
+import { jobs } from "../utils/data";
 const FindJobs = () => {
   const [sort, setSort] = useState("Newest");
   const [page, setPage] = useState(1);
@@ -45,7 +45,7 @@ const FindJobs = () => {
       });
       setNumPage(res?.numOfPage);
       setRecordCount(res?.totalJobs);
-      setData(res?.data);
+      setData(res?.data || jobs);
       setIsFetching(false);
     } catch (error) {}
   };
@@ -109,7 +109,6 @@ const FindJobs = () => {
           location={jobLocation}
           setLocation={setJobLocation}
         />
-
 
         <div className="container mx-auto flex gap-6 2xl:gap-10 md:px-5 py-0 md:py-6">
           <div className="hidden md:flex flex-col w-1/6 h-fit bg-white shadow-sm p-4 rounded-md">
@@ -217,9 +216,7 @@ const FindJobs = () => {
           </div>
         </div>
         <HowItWorks></HowItWorks>
-
       </div>
-
     </>
   );
 };
