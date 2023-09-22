@@ -3,7 +3,6 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 const JobCard = ({ job }) => {
-  console.log(job);
   return (
     <Link
       className="w-full md:w-[16rem] 2xl:w-[18rem] h-[16rem] md:h-[18rem]"
