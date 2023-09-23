@@ -45,9 +45,13 @@ const FindJobs = () => {
       });
       setNumPage(res?.numOfPage);
       setRecordCount(res?.totalJobs);
+      console.log(res?.data);
+
       if (res?.data && res?.data.length > 0) {
         setData(res?.data);
-      } else setData(jobs);
+      } else {
+        setData(jobs);
+      }
       setIsFetching(false);
     } catch (error) {}
   };
