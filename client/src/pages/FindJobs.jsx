@@ -14,7 +14,7 @@ const FindJobs = () => {
   const [page, setPage] = useState(1);
   const [numPage, setNumPage] = useState(1);
   const [recordCount, setRecordCount] = useState(0);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [jobLocation, setJobLocation] = useState("");
@@ -27,7 +27,7 @@ const FindJobs = () => {
   const navigate = useNavigate();
 
   const fetchJobs = async () => {
-    setData(jobs);
+    if(!data) setData(jobs);
     setIsFetching(true);
     const newURL = updateURL({
       pageNum: page,
