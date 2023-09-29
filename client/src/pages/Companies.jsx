@@ -8,6 +8,7 @@ import {
   ListBox,
 } from "../components";
 import { apiRequest, updateURL } from "../utils";
+import { defaultCompanies } from "../utils/data";
 const Companies = () => {
   const [page, setPage] = useState(1);
   const [numPage, setNumPage] = useState(1);
@@ -22,6 +23,11 @@ const Companies = () => {
   const navigate = useNavigate();
 
   const fetchCompanies = async () => {
+    if(!data){
+      setNumPage(defaultCompanies.numOfPage);
+      setRecordsCount(defaultCompanies.total);
+      setData(defaultCompanies.data);
+    }
     setIsFetching(true);
     const newURL = updateURL({
       pageNum: page,
