@@ -8,7 +8,7 @@ import Header from "../components/Header";
 import HowItWorks from "../components/HowItWorks";
 import { apiRequest, updateURL } from "../utils";
 import { experience, jobTypes } from "../utils/data";
-import { jobs } from "../utils/data";
+
 const FindJobs = () => {
   const [sort, setSort] = useState("Newest");
   const [page, setPage] = useState(1);
@@ -27,11 +27,7 @@ const FindJobs = () => {
   const navigate = useNavigate();
 
   const fetchJobs = async () => {
-    if (!data) {
-      setData(jobs.data);
-      setNumPage(jobs.numOfPage);
-      setRecordCount(jobs.totalJobs);
-    }
+
     setIsFetching(true);
     const newURL = updateURL({
       pageNum: page,
@@ -52,7 +48,7 @@ const FindJobs = () => {
       setRecordCount(res?.totalJobs);
 
       setData(res?.data);
-      console.log(res?.data);
+    
 
       setIsFetching(false);
     } catch (error) {}
