@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
-  Loading,
   CompanyCard,
   CustomButton,
-  Header,
   ListBox,
+  Loading
 } from "../components";
 import { apiRequest, updateURL } from "../utils";
 

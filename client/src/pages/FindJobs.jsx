@@ -27,7 +27,6 @@ const FindJobs = () => {
   const navigate = useNavigate();
 
   const fetchJobs = async () => {
-
     setIsFetching(true);
     const newURL = updateURL({
       pageNum: page,
@@ -48,7 +47,6 @@ const FindJobs = () => {
       setRecordCount(res?.totalJobs);
 
       setData(res?.data);
-    
 
       setIsFetching(false);
     } catch (error) {}
